@@ -1,0 +1,13 @@
+<div class="col-xs-12">
+  <div class="container-header">
+    <h3 class="first-line">Patients detail list :</h3>
+    <button class="btn btn-standard first-line" (click)="goToNewPatient()">Add patient</button>
+  </div>
+  <ul class="list-group">
+    <app-patient *ngFor="let patient of patients; let i = index"
+                    [given]="patient.given"
+                    [family]="patient.family"
+                    [dob]="patient.dob"
+                    [id]="patient.id"></app-patient>
+  </ul>
+</div>
