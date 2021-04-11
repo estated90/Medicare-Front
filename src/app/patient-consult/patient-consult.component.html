@@ -1,0 +1,27 @@
+<div class="col-sm-8 col-sm-offset-2">
+    <div>
+      <label for="family">Family Name</label>
+      <p class="family">{{ patient.family }}</p>
+    </div>
+    <div>
+      <label for="given">Given Name</label>
+      <p for="given">{{ patient.given }}</p>
+    </div>
+    <div>
+      <label for="dob">Date of birth</label>
+      <p for="dob">{{ patient.dob }}</p>
+    </div>
+    <div>
+      <label for="sex">Sex of the patient</label>
+      <p for="sex">{{ patient.sex }}</p>
+    </div>
+    <div>
+      <label for="address">Address</label>.
+      <p for="address">{{ patient.address }}</p>
+    </div>
+    <div>
+      <label for="phone">Phone Number</label>
+      <p for="phone">{{ patient.phone }}</p>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="returnToPatient()">Return</button>
+</div>

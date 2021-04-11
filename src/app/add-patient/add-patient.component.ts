@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Patient } from '../models/patient.model';
 import { PatientService } from '../services/patient-service';
 
 @Component({
@@ -12,7 +13,9 @@ export class AddPatientComponent implements OnInit {
 
   patientForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private patientService: PatientService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private patientService: PatientService, private router: Router) { };
+
+  patient: Patient = <Patient>{};
 
   ngOnInit() {
     this.initForm();
@@ -32,8 +35,14 @@ export class AddPatientComponent implements OnInit {
   onSubmitForm() {
     console.log('adding a new patient')
     const formValue = this.patientForm.value;
-    this.patientService.addPatient(formValue['family'], formValue['given'],formValue['dob'],formValue['sex'],formValue['address'],formValue['phone']);
-    //this.router.navigate(['/patient']);
+    this.patient.family = formValue['family'];
+    this.patient.given = formValue['given'];
+    this.patient.dob = formValue['dob'];
+    this.patient.sex = formValue['sex'];
+    this.patient.address = formValue['address'];
+    this.patient.phone = formValue['phone'];
+    this.patientService.addPatient(this.patient);
+    this.router.navigate(['/patient']);
   }
 
 }

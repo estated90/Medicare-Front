@@ -1,39 +1,46 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { resolve } from "node:path";
+import { Observable, Subject, throwError } from "rxjs";
+import { catchError } from 'rxjs/operators';
+import { Patient } from "../models/patient.model";
 
 @Injectable()
 export class PatientService {
 
-  patientSubject = new Subject<any[]>();
+  patientsSubject = new Subject<any[]>();
+  patientSubject = new Subject<any>();
 
   private patients = [];
-
+  private patient!: Patient;
+  stringJson: any;
+  asyncResult: void;
   constructor(private httpClient: HttpClient){};
 
-  private headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+  private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  emitPatientSubject(){
-    this.patientSubject.next(this.patients.slice());
+  private apiUrl: string = 'http://localhost:8081/patient';
+
+  emitPatientsSubject(){
+    this.patientsSubject.next(this.patients.slice());
   }
 
-  getPatientById(id: number){
-    const patient = this.patients.find(
-      (patientObject: { id: number; }) =>{
-        return patientObject.id === id;
-      }
-    );
-    return patient;
+  emitPatientSubject(){
+    this.patientSubject.next(this.patient);
+  }
+
+  getPatientById(id: number): Observable<Patient>{
+    return this.httpClient.get<Patient>(this.apiUrl + '/' + id, { responseType: 'json' });
   }
 
   getPatientFromServer(){
     this.httpClient
-      .get<any>('http://localhost:8081/patient/list', {responseType: 'json'})
+      .get<any>(this.apiUrl+'/list', {responseType: 'json'})
       .subscribe(
         (response) => {
           console.log("Data has been retrieved successfully")
           this.patients = response;
-          this.emitPatientSubject();
+          this.emitPatientsSubject();
         },
         (error) => {
           console.log('Error while retrieving the data'+ error);
@@ -42,14 +49,31 @@ export class PatientService {
       console.log(this.patients);
   }
 
-  addPatient(family: string, given: string, dob: string, sex: string, address: string, phone: string){
-    console.log('Sending new patient to service')
-    let body = 'family=${family}&given=${given}&dob=${dob}&sex=${sex}&address=${address}&phone=${phone}'
-    let options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    };
+  addPatient(patient:Patient){
+    console.log('Sending new patient to service '+patient)
+    let API_URL = `${this.apiUrl}/add`;
+    this.stringJson = JSON.stringify(patient);
     this.httpClient
-    .put('http://localhost:8081/patient/add', body, options)
+    .put(API_URL, this.stringJson, {headers:this.headers}).subscribe(
+      () => {
+        console.log('enregistrement terminé');
+      },
+      (error) => {
+        console.log('Erreur de sauvegarde ! '+ error);
+      }
+    );
+  }
+
+  // Handle Errors
+  error(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 
 }

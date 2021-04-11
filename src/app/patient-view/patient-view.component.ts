@@ -19,12 +19,12 @@ export class PatientViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.patientService.getPatientFromServer();
-    this.patientSubscription= this.patientService.patientSubject.subscribe(
+    this.patientSubscription= this.patientService.patientsSubject.subscribe(
       (patients: Patient[]) =>{
         this.patients= patients;
       }
     );
-    this.patientService.emitPatientSubject();
+    this.patientService.emitPatientsSubject();
   }
 
   ngOnDestroy(){

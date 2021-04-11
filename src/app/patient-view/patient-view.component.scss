@@ -1,8 +1,14 @@
 .btn-standard{
-  background-color: rgb(65,94,211);
-  color: white;
+  border-color: rgb(65,94,211);
+  background-color: white;
+  color: rgb(65,94,211);
   float: right;
   margin-top: 0.8%;
+  :hover > &{
+    border-color: rgb(65,94,211);
+    background-color:rgb(65,94,211);
+    color: white;
+  }
 }
 
 .container-header{

@@ -5,8 +5,33 @@ div{
 .card{
   width: 250px;
   margin-bottom: 0.5em;
-  margin-right: 0.5em;
+  margin-right: 20%;
   display: inline-block;
+  margin-right: 1%;
+  margin-left: auto;
+  .buttons, .describer{
+    vertical-align:top;
+  }
+  .buttons{
+    float:left;
+    width:30px;
+  }
+  .describer{
+    float:right;
+    width:180px;
+  }
 }
 
+button{
+  border-color: rgb(65,94,211);
+  background-color: white;
+  color: rgb(65,94,211);
+  display: inline-block;
+  padding: 1px 3px;
 
+  :hover > &{
+    border-color: rgb(65,94,211);
+    background-color:rgb(65,94,211);
+    color: white;
+  }
+}

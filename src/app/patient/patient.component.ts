@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Patient } from '../models/patient.model';
 import { PatientService } from '../services/patient-service';
@@ -19,8 +19,12 @@ export class PatientComponent implements OnInit {
   @Input() address!: string;
   @Input() phone!: string;
 
-  constructor(){};
+  constructor(private router: Router){};
 
   ngOnInit(): void {};
+
+  goToPatient(id: number){
+    this.router.navigate(['/patient', id])
+  }
 
 }

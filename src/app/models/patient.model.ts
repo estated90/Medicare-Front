@@ -1,11 +1,18 @@
 export class Patient {
-  constructor(
-    public id: number,
-    public family: string,
-    public given: string,
-    public dob: Date,
-    public sex: string,
-    public address: string,
-    public phone: string) {}
+  id!: number;
+  family!: string;
+  given!: string;
+  dob!: Date;
+  sex!: string;
+  address!: string;
+  phone!: string;
 
- }
+  constructor(family: string, given: string, dob: Date, sex: string, address: string, phone: string){
+    this.family=family;
+    this.given=given;
+    this.dob=dob;
+    this.sex=sex;
+    this.address=address;
+    this.phone=phone;
+  }
+}

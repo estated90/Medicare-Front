@@ -1,7 +1,12 @@
 <li class="card" [ngClass]="{'list-group-item': true}">
   <div class="patientCard">
-    <p>Last name : {{ family }}</p>
-    <p>First name : {{ given }}</p>
-    <p>Date of birth: {{ dob }}</p>
+    <div class="buttons">
+      <button type="submit" class="btn btn-primary" (click)="goToPatient(id)">	<mat-icon>more_horiz</mat-icon></button>
+  </div>
+    <div class="describer">
+      <p>Last name : {{ family }}</p>
+      <p>First name : {{ given }}</p>
+      <p>Date of birth: {{ dob }}</p>
+    </div>
   </div>
 </li>
